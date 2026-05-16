@@ -3,135 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KAS APATO 404</title>
+    <title>KAS APATO 404 - JAPAN EDITION</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Serif+JP:wght@900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --wasabi: #788c67;
-            --sumi: #1a1a1a;
-            --torii: #b33939;
-            --paper: #f4f1ea;
+            --sakura: #ffb7c5;
+            --osaka-neon: #00f2ff;
+            --tokyo-red: #d63031;
+            --night-sky: #0f172a;
         }
+
         body {
             font-family: 'Shippori Mincho', serif;
-            background-color: var(--paper);
-            background-image: url('https://www.transparenttextures.com/patterns/pinstriped-suit.png'); /* Efek tekstur kertas/kain */
-            color: var(--sumi);
+            background-color: var(--night-sky);
+            background-image: url('1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             min-height: 100vh;
+            margin: 0;
         }
-        .shoji-card {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid var(--sumi);
-            box-shadow: 5px 5px 0px var(--sumi);
-            position: relative;
+
+        .glass-overlay {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(214, 48, 49, 0.1));
+            min-height: 100vh;
+            backdrop-filter: blur(8px);
         }
-        .japanese-header {
-            border-bottom: 4px double var(--sumi);
+
+        /* Animasi Kelopak Sakura */
+        .sakura-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
-        .btn-zen {
-            background-color: var(--sumi);
-            color: white;
-            transition: all 0.3s ease;
-            border: 1px solid var(--sumi);
+
+        .sakura {
+            position: absolute;
+            background-color: var(--sakura);
+            border-radius: 100% 0 100% 0;
+            opacity: 0.4;
+            animation: fall linear infinite;
         }
-        .btn-zen:active {
-            background-color: white;
-            color: var(--sumi);
-            transform: translateY(2px);
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
-        .btn-red {
-            border: 2px solid var(--torii);
-            color: var(--torii);
+
+        /* Stempel Hanko Tradisional */
+        .hanko-stamp {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--tokyo-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--tokyo-red);
+            font-size: 8px;
             font-weight: bold;
+            transform: rotate(15deg);
+            opacity: 0.6;
+            padding: 2px;
+            box-shadow: inset 0 0 0 1px var(--tokyo-red);
+            pointer-events: none;
+            user-select: none;
         }
-        .stamp {
-            border: 2px solid var(--torii);
-            color: var(--torii);
-            padding: 2px 5px;
-            font-weight: bold;
-            display: inline-block;
-            transform: rotate(-15deg);
-            font-size: 10px;
-            text-transform: uppercase;
+
+        .hanko-inner {
+            border: 1px solid var(--tokyo-red);
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
         }
-        /* Custom scrollbar gaya bambu/kayu */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--paper); }
-        ::-webkit-scrollbar-thumb { background: var(--sumi); border-radius: 10px; }
+
+        /* Card Style */
+        .modern-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .btn-entry {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 12px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-entry:active { transform: translateY(2px); }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+            background: #fdfbf7;
+            margin: 15% auto;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 24px;
+            padding: 24px;
+        }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body>
 
-    <div class="max-w-md mx-auto">
-        <!-- Header Budaya Jepang -->
-        <header class="text-center mb-8 pt-4">
-            <div class="inline-block border-2 border-black p-1 mb-2">
-                <div class="border border-black px-4 py-1 text-xs tracking-[0.3em] font-bold">アパート 404</div>
-            </div>
-            <h1 class="text-3xl font-bold uppercase tracking-widest japanese-header pb-2">KAS APATO 404</h1>
-            <p class="text-[10px] mt-2 italic opacity-70 italic">"Keseimbangan dalam setiap koin yang tersimpan"</p>
-        </header>
+    <div class="sakura-container" id="sakura-box"></div>
 
-        <!-- Papan Saldo Utama (Gaya Papan Kayu) -->
-        <div class="shoji-card p-6 mb-8 text-center bg-white border-4 border-double border-black">
-            <div class="absolute top-2 right-2 stamp">OFFICIAL</div>
-            <p class="text-xs uppercase font-bold tracking-widest mb-2 opacity-60">Sisa Saldo Kas / 残高</p>
-            <div class="text-4xl font-bold tracking-tighter" id="total-saldo">¥0</div>
-            <div class="mt-4 flex justify-center gap-4 text-[10px] font-bold border-t border-black/10 pt-4">
-                <span id="status-koneksi" class="flex items-center gap-1">
-                    <span class="h-2 w-2 rounded-full bg-red-600"></span> SINYAL
-                </span>
-                <span>|</span>
-                <span id="last-sync">--:--:--</span>
+    <div class="glass-overlay p-4 pt-8 pb-24">
+        
+        <!-- Modal Arsip -->
+        <div id="modal-arsip" class="modal">
+            <div class="modal-content shadow-2xl">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-4">
+                    <h2 class="font-bold text-gray-800 tracking-widest uppercase text-xs">Arsip Gulungan Lama</h2>
+                    <button onclick="toggleArchive()" class="text-2xl text-gray-400">&times;</button>
+                </div>
+                <div id="archive-list" class="space-y-3 overflow-y-auto max-h-[50vh]"></div>
             </div>
         </div>
 
-        <!-- Form Input (Gaya Shoji/Kertas) -->
-        <div class="shoji-card p-6 mb-8">
-            <h3 class="text-xs font-bold mb-4 border-l-4 border-red-700 pl-2 uppercase">Catat Aliran Dana</h3>
-            <div class="space-y-4">
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-bold mb-1">KETERANGAN / 説明</label>
-                    <input type="text" id="ket" class="bg-transparent border-b-2 border-black p-2 outline-none text-sm focus:bg-white transition-all uppercase" placeholder="...">
+        <div class="max-w-md mx-auto relative z-10">
+            
+            <!-- Header -->
+            <header class="text-center mb-10">
+                <div class="inline-block bg-red-600 text-white px-3 py-1 mb-3 rounded-md font-bold text-[8px] tracking-[0.4em] shadow-lg">
+                    APATO 404
                 </div>
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-bold mb-1">JUMLAH (YEN) / 金額</label>
-                    <input type="number" id="nom" class="bg-transparent border-b-2 border-black p-2 outline-none text-sm focus:bg-white transition-all font-bold" placeholder="0">
+                <h1 class="text-3xl font-black text-white tracking-tight">
+                    JAPANESE <span class="text-red-500">LEDGER</span>
+                </h1>
+                <div id="active-period-label" class="text-[9px] mt-2 font-bold text-white/60 uppercase tracking-[0.2em]">
+                    Memuat Sesi...
                 </div>
-                <div class="grid grid-cols-2 gap-4 pt-4">
-                    <button id="btn-masuk" class="btn-zen py-3 text-xs font-bold tracking-widest uppercase shadow-md">
-                        Masuk / 入金
-                    </button>
-                    <button id="btn-keluar" class="btn-red py-3 text-xs font-bold tracking-widest uppercase shadow-md bg-white">
-                        Keluar / 出金
-                    </button>
+            </header>
+
+            <!-- Dashboard Saldo -->
+            <div class="modern-card p-8 mb-8 text-center relative overflow-hidden">
+                <!-- Stempel Hanko Tradisional -->
+                <div class="hanko-stamp">
+                    <div class="hanko-inner">
+                        <span>公式</span>
+                        <span style="font-size: 6px; margin-top: 2px;">APATO</span>
+                    </div>
+                </div>
+
+                <p class="text-[9px] uppercase font-black tracking-[0.2em] text-gray-400 mb-2">Total Saldo Periode</p>
+                <div class="text-5xl font-black text-gray-900 tracking-tighter" id="total-saldo" style="font-family: 'Noto Serif JP', serif;">¥0</div>
+                
+                <div class="mt-6 flex justify-center items-center gap-3 text-[8px] font-bold text-gray-300 border-t border-gray-100 pt-4">
+                    <span id="auth-status">MENUNGGU...</span>
+                    <span class="w-1 h-1 bg-gray-200 rounded-full"></span>
+                    <span id="sync-time">--:--</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Daftar Riwayat (Gaya Gulungan Naskah) -->
-        <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-bold uppercase tracking-widest border-b-2 border-red-700">Buku Kas</span>
-            <span id="counter" class="text-xs font-bold bg-black text-white px-2 py-0.5 shadow-sm">00</span>
-        </div>
+            <!-- Navigasi -->
+            <div class="grid grid-cols-2 gap-4 mb-10">
+                <button onclick="toggleArchive()" class="bg-white/10 hover:bg-white/20 text-white p-3 rounded-2xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 border border-white/10 transition-all">
+                    📜 Buka Arsip
+                </button>
+                <div class="bg-white/10 text-white p-3 rounded-2xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center border border-white/10">
+                    Data: <span id="item-count" class="ml-2 text-red-500">00</span>
+                </div>
+            </div>
 
-        <div id="history-list" class="space-y-4">
-            <!-- Data akan muncul di sini -->
-            <div class="text-center py-10 opacity-30 italic text-xs">Memuat Gulungan Data...</div>
-        </div>
+            <!-- Form Input -->
+            <div class="modern-card p-6 mb-10 shadow-2xl">
+                <div class="space-y-5">
+                    <div class="relative">
+                        <label class="text-[8px] font-black text-gray-400 uppercase tracking-widest absolute -top-2 left-3 bg-white px-2">Pengisi</label>
+                        <select id="input-user" class="w-full bg-gray-50 rounded-xl p-4 outline-none text-sm font-bold border border-gray-100">
+                            <option value="" disabled selected>Pilih...</option>
+                            <option value="Amry Galih N">Amry Galih N</option>
+                            <option value="Fikri Muzaki">Fikri Muzaki</option>
+                            <option value="Gungun G">Gungun G</option>
+                            <option value="Saleh H">Saleh H</option>
+                        </select>
+                    </div>
+                    <div class="relative">
+                        <label class="text-[8px] font-black text-gray-400 uppercase tracking-widest absolute -top-2 left-3 bg-white px-2">Deskripsi</label>
+                        <input type="text" id="input-ket" class="w-full bg-gray-50 rounded-xl p-4 outline-none text-sm font-bold border border-gray-100 uppercase" placeholder="KETERANGAN..." autocomplete="off">
+                    </div>
+                    <div class="relative">
+                        <label class="text-[8px] font-black text-gray-400 uppercase tracking-widest absolute -top-2 left-3 bg-white px-2">Jumlah (¥)</label>
+                        <input type="number" id="input-nom" class="w-full bg-gray-50 rounded-xl p-4 outline-none text-2xl font-black border border-gray-100" placeholder="0">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 pt-2">
+                        <button id="btn-in" disabled class="btn-entry bg-green-500 text-white py-4 shadow-lg shadow-green-500/20 text-[10px]">MASUK / 入</button>
+                        <button id="btn-out" disabled class="btn-entry bg-red-600 text-white py-4 shadow-lg shadow-red-600/20 text-[10px]">KELUAR / 出</button>
+                    </div>
+                </div>
+            </div>
 
-        <footer class="mt-12 text-center pb-10">
-            <div class="text-[20px] mb-2 opacity-20">🎎</div>
-            <p class="text-[9px] uppercase tracking-[0.5em] font-bold opacity-40">Gungun Industries - Nippon Edition</p>
-        </footer>
+            <!-- Riwayat -->
+            <div class="flex items-center gap-3 mb-6">
+                <div class="h-[2px] flex-grow bg-white/10"></div>
+                <h3 class="text-[10px] font-black text-white/40 uppercase tracking-[0.3em]">Transaksi Aktif</h3>
+                <div class="h-[2px] flex-grow bg-white/10"></div>
+            </div>
+            
+            <div id="ledger-list" class="space-y-4"></div>
+        </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database-compat.js"></script>
 
     <script>
+        // Sakura Falling Effect
+        function createSakura() {
+            const box = document.getElementById('sakura-box');
+            const petal = document.createElement('div');
+            petal.className = 'sakura';
+            const size = Math.random() * 8 + 4 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 4 + 6 + 's';
+            box.appendChild(petal);
+            setTimeout(() => petal.remove(), 10000);
+        }
+        setInterval(createSakura, 600);
+
+        // Firebase Setup
         const firebaseConfig = {
             apiKey: "AIzaSyAiMAg6_CsXal5g_EXLbgoQ35VIboSRJ4A",
             authDomain: "kas-ac289.firebaseapp.com",
@@ -143,96 +257,119 @@
         };
 
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.database();
-        const dbPath = 'apato_404_ledger'; // Path database baru bertema Apato
-        const dbRef = db.ref(dbPath);
+        const path = 'apato_404_ledger';
 
-        // Fungsi Simpan
-        function saveData(type) {
-            const keterangan = document.getElementById('ket').value;
-            const nominal = document.getElementById('nom').value;
-            if(!keterangan || !nominal) return;
+        function getPeriodRange() {
+            const now = new Date();
+            let start, end;
+            if (now.getDate() >= 16) {
+                start = new Date(now.getFullYear(), now.getMonth(), 16, 0, 0, 0);
+                end = new Date(now.getFullYear(), now.getMonth() + 1, 15, 23, 59, 59);
+            } else {
+                start = new Date(now.getFullYear(), now.getMonth() - 1, 16, 0, 0, 0);
+                end = new Date(now.getFullYear(), now.getMonth(), 15, 23, 59, 59);
+            }
+            return { 
+                start: start.getTime(), 
+                end: end.getTime(), 
+                label: `${start.toLocaleDateString('id-ID', {day:'numeric', month:'short'})} - ${end.toLocaleDateString('id-ID', {day:'numeric', month:'short'})}` 
+            };
+        }
 
-            dbRef.push({
-                desc: keterangan.toUpperCase(),
-                amt: parseInt(nominal),
-                type: type,
+        const currentRange = getPeriodRange();
+        document.getElementById('active-period-label').innerText = currentRange.label;
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                document.getElementById('auth-status').innerText = "STABIL";
+                document.getElementById('btn-in').disabled = false;
+                document.getElementById('btn-out').disabled = false;
+                loadData();
+            } else {
+                auth.signInAnonymously();
+            }
+        });
+
+        function send(type) {
+            const user = document.getElementById('input-user').value;
+            const ket = document.getElementById('input-ket').value;
+            const nom = document.getElementById('input-nom').value;
+            if(!user || !ket || !nom) return;
+
+            db.ref(path).push({
+                user, desc: ket.toUpperCase(), amt: parseInt(nom), type,
                 ts: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
-                document.getElementById('ket').value = "";
-                document.getElementById('nom').value = "";
-                if(navigator.vibrate) navigator.vibrate(20);
+                document.getElementById('input-ket').value = "";
+                document.getElementById('input-nom').value = "";
             });
         }
 
-        document.getElementById('btn-masuk').onclick = () => saveData('masuk');
-        document.getElementById('btn-keluar').onclick = () => saveData('keluar');
+        document.getElementById('btn-in').onclick = () => send('masuk');
+        document.getElementById('btn-out').onclick = () => send('keluar');
 
-        // Fungsi Hapus Global
-        window.deleteItem = function(key) {
-            if (confirm("Hapus catatan ini dari buku kas?")) {
-                db.ref(dbPath + '/' + key).remove()
-                .catch(e => alert("Gagal: " + e.message));
-            }
-        };
+        function toggleArchive() {
+            const m = document.getElementById('modal-arsip');
+            m.style.display = m.style.display === 'block' ? 'none' : 'block';
+        }
 
-        // Status Koneksi
-        db.ref(".info/connected").on("value", (s) => {
-            const dot = document.querySelector('#status-koneksi span');
-            dot.style.backgroundColor = s.val() ? "#2f3542" : "#b33939";
-        });
+        function loadData() {
+            db.ref(path).on('value', (snap) => {
+                const list = document.getElementById('ledger-list');
+                const archList = document.getElementById('archive-list');
+                const totalEl = document.getElementById('total-saldo');
+                
+                list.innerHTML = "";
+                archList.innerHTML = "";
+                let total = 0, activeCount = 0;
+                const data = snap.val();
+                if(!data) {
+                    totalEl.innerText = "¥0";
+                    return;
+                }
 
-        // Realtime Data
-        dbRef.on('value', (snap) => {
-            const list = document.getElementById('history-list');
-            const totalEl = document.getElementById('total-saldo');
-            const countEl = document.getElementById('counter');
-            
-            list.innerHTML = "";
-            let total = 0;
-            let count = 0;
-            const val = snap.val();
+                const items = Object.keys(data).map(k => ({id: k, ...data[k]})).sort((a,b) => b.ts - a.ts);
 
-            if(!val) {
-                totalEl.innerText = "¥0";
-                countEl.innerText = "00";
-                list.innerHTML = "<div class='shoji-card p-10 text-center text-xs opacity-40'>BUKU MASIH KOSONG</div>";
-                return;
-            }
+                items.forEach(item => {
+                    const isInc = item.type === 'masuk';
+                    const isActive = item.ts >= currentRange.start && item.ts <= currentRange.end;
 
-            const arr = Object.keys(val).map(k => ({id: k, ...val[k]})).sort((a,b) => b.ts - a.ts);
-
-            arr.forEach(item => {
-                count++;
-                const isInc = item.type === 'masuk';
-                total += isInc ? item.amt : -item.amt;
-
-                const itemDiv = document.createElement('div');
-                itemDiv.className = "shoji-card p-4 flex justify-between items-center bg-white";
-                itemDiv.innerHTML = `
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2">
-                             <div class="h-1.5 w-1.5 bg-black rounded-full"></div>
-                             <h4 class="text-[11px] font-bold tracking-widest">${item.desc}</h4>
+                    const cardHTML = `
+                        <div class="bg-white rounded-2xl p-4 flex justify-between items-center shadow-lg">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-[7px] bg-gray-900 text-white px-1.5 py-0.5 rounded font-black uppercase">${item.user}</span>
+                                    <h4 class="text-[10px] font-black text-gray-800 uppercase tracking-tight">${item.desc}</h4>
+                                </div>
+                                <p class="text-[7px] text-gray-400 font-bold uppercase tracking-wider">${new Date(item.ts).toLocaleDateString('id-ID', {day:'numeric', month:'short'})} • ${new Date(item.ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-sm font-black ${isInc ? 'text-green-600' : 'text-red-600'}">
+                                    ${isInc ? '+' : '-'} ¥${item.amt.toLocaleString()}
+                                </span>
+                                ${isActive ? `<button onclick="deleteData('${item.id}')" class="text-gray-200 hover:text-red-500 text-lg">&times;</button>` : ''}
+                            </div>
                         </div>
-                        <p class="text-[8px] opacity-40 mt-1 uppercase ml-3">${new Date(item.ts).toLocaleString('id-ID')}</p>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs font-bold ${isInc ? 'text-green-700' : 'text-red-700'}">
-                            ${isInc ? '+' : '-'} ¥${item.amt.toLocaleString()}
-                        </span>
-                        <button onclick="window.deleteItem('${item.id}')" class="p-2 border border-black/5 hover:bg-red-50 text-black/20 hover:text-red-700 transition-all">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                        </button>
-                    </div>
-                `;
-                list.appendChild(itemDiv);
-            });
+                    `;
 
-            totalEl.innerText = "¥" + total.toLocaleString();
-            countEl.innerText = count < 10 ? "0"+count : count;
-            document.getElementById('last-sync').innerText = new Date().toLocaleTimeString();
-        });
+                    if (isActive) {
+                        activeCount++;
+                        total += isInc ? item.amt : -item.amt;
+                        list.insertAdjacentHTML('beforeend', cardHTML);
+                    } else {
+                        archList.insertAdjacentHTML('beforeend', cardHTML);
+                    }
+                });
+
+                totalEl.innerText = "¥" + total.toLocaleString();
+                document.getElementById('item-count').innerText = activeCount < 10 ? "0"+activeCount : activeCount;
+                document.getElementById('sync-time').innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            });
+        }
+
+        window.deleteData = (id) => confirm("Hapus data?") && db.ref(path).child(id).remove();
     </script>
 </body>
 </html>
