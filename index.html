@@ -1,77 +1,130 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KASU PRO v5 - Sistem Stabil</title>
+    <title>KAS APATO 404</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+JP:wght@300;500;700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg-dark: #0a0a0c; }
+        :root {
+            --wasabi: #788c67;
+            --sumi: #1a1a1a;
+            --torii: #b33939;
+            --paper: #f4f1ea;
+        }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
-            color: #e2e8f0;
+            font-family: 'Shippori Mincho', serif;
+            background-color: var(--paper);
+            background-image: url('https://www.transparenttextures.com/patterns/pinstriped-suit.png'); /* Efek tekstur kertas/kain */
+            color: var(--sumi);
             min-height: 100vh;
         }
-        .font-cyber { font-family: 'Orbitron', sans-serif; }
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
+        .shoji-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--sumi);
+            box-shadow: 5px 5px 0px var(--sumi);
+            position: relative;
         }
-        .btn-gold {
-            background: linear-gradient(135deg, #d4af37 0%, #f1d37c 100%);
-            color: #000;
-            font-weight: 800;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        .japanese-header {
+            border-bottom: 4px double var(--sumi);
         }
+        .btn-zen {
+            background-color: var(--sumi);
+            color: white;
+            transition: all 0.3s ease;
+            border: 1px solid var(--sumi);
+        }
+        .btn-zen:active {
+            background-color: white;
+            color: var(--sumi);
+            transform: translateY(2px);
+        }
+        .btn-red {
+            border: 2px solid var(--torii);
+            color: var(--torii);
+            font-weight: bold;
+        }
+        .stamp {
+            border: 2px solid var(--torii);
+            color: var(--torii);
+            padding: 2px 5px;
+            font-weight: bold;
+            display: inline-block;
+            transform: rotate(-15deg);
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+        /* Custom scrollbar gaya bambu/kayu */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb { background: var(--sumi); border-radius: 10px; }
     </style>
 </head>
-<body class="p-6">
+<body class="p-4 md:p-8">
 
     <div class="max-w-md mx-auto">
-        <!-- Dashboard Header -->
-        <div class="flex justify-between items-center mb-8">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 flex items-center justify-center glass border border-gold/30 text-gold font-bold">K</div>
-                <h1 class="font-cyber tracking-widest text-sm">KASU <span class="text-gold">V5</span></h1>
+        <!-- Header Budaya Jepang -->
+        <header class="text-center mb-8 pt-4">
+            <div class="inline-block border-2 border-black p-1 mb-2">
+                <div class="border border-black px-4 py-1 text-xs tracking-[0.3em] font-bold">アパート 404</div>
             </div>
-            <div id="status" class="text-[8px] tracking-[0.2em] font-bold py-1 px-3 glass">MENGHUBUNGKAN...</div>
+            <h1 class="text-3xl font-bold uppercase tracking-widest japanese-header pb-2">KAS APATO 404</h1>
+            <p class="text-[10px] mt-2 italic opacity-70 italic">"Keseimbangan dalam setiap koin yang tersimpan"</p>
+        </header>
+
+        <!-- Papan Saldo Utama (Gaya Papan Kayu) -->
+        <div class="shoji-card p-6 mb-8 text-center bg-white border-4 border-double border-black">
+            <div class="absolute top-2 right-2 stamp">OFFICIAL</div>
+            <p class="text-xs uppercase font-bold tracking-widest mb-2 opacity-60">Sisa Saldo Kas / 残高</p>
+            <div class="text-4xl font-bold tracking-tighter" id="total-saldo">¥0</div>
+            <div class="mt-4 flex justify-center gap-4 text-[10px] font-bold border-t border-black/10 pt-4">
+                <span id="status-koneksi" class="flex items-center gap-1">
+                    <span class="h-2 w-2 rounded-full bg-red-600"></span> SINYAL
+                </span>
+                <span>|</span>
+                <span id="last-sync">--:--:--</span>
+            </div>
         </div>
 
-        <!-- Saldo Display -->
-        <div class="glass p-8 mb-8 border border-gold/20 text-center relative overflow-hidden">
-            <p class="text-[9px] uppercase tracking-[0.3em] text-gold/60 mb-2">Total Saldo Terkini</p>
-            <h2 class="font-cyber text-4xl font-bold tracking-tighter" id="total-saldo">¥0</h2>
-            <div id="loading-bar" class="absolute bottom-0 left-0 h-[1px] bg-gold w-0 transition-all duration-500"></div>
-        </div>
-
-        <!-- Input Section -->
-        <div class="glass p-6 mb-8">
+        <!-- Form Input (Gaya Shoji/Kertas) -->
+        <div class="shoji-card p-6 mb-8">
+            <h3 class="text-xs font-bold mb-4 border-l-4 border-red-700 pl-2 uppercase">Catat Aliran Dana</h3>
             <div class="space-y-4">
-                <input type="text" id="ket" placeholder="KETERANGAN" class="w-full bg-black/40 p-4 rounded-xl text-xs outline-none border border-white/5 focus:border-gold/50 transition-all">
-                <input type="number" id="nom" placeholder="NOMINAL (¥)" class="w-full bg-black/40 p-4 rounded-xl text-xs outline-none border border-white/5 focus:border-gold/50 font-cyber">
-                <div class="grid grid-cols-2 gap-3 pt-2">
-                    <button onclick="saveData('masuk')" class="btn-gold p-4 rounded-xl active:scale-95 transition-all text-[10px]">MASUK 入金</button>
-                    <button onclick="saveData('keluar')" class="bg-white/5 border border-white/10 p-4 rounded-xl active:scale-95 transition-all text-[10px] text-rose-500 font-bold">KELUAR 出金</button>
+                <div class="flex flex-col">
+                    <label class="text-[10px] font-bold mb-1">KETERANGAN / 説明</label>
+                    <input type="text" id="ket" class="bg-transparent border-b-2 border-black p-2 outline-none text-sm focus:bg-white transition-all uppercase" placeholder="...">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-[10px] font-bold mb-1">JUMLAH (YEN) / 金額</label>
+                    <input type="number" id="nom" class="bg-transparent border-b-2 border-black p-2 outline-none text-sm focus:bg-white transition-all font-bold" placeholder="0">
+                </div>
+                <div class="grid grid-cols-2 gap-4 pt-4">
+                    <button id="btn-masuk" class="btn-zen py-3 text-xs font-bold tracking-widest uppercase shadow-md">
+                        Masuk / 入金
+                    </button>
+                    <button id="btn-keluar" class="btn-red py-3 text-xs font-bold tracking-widest uppercase shadow-md bg-white">
+                        Keluar / 出金
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- History -->
-        <div class="flex items-center justify-between mb-4 px-2">
-            <span class="text-[9px] font-bold uppercase tracking-widest opacity-40">Catatan Transaksi</span>
-            <span id="counter" class="font-cyber text-[10px] text-gold">00</span>
+        <!-- Daftar Riwayat (Gaya Gulungan Naskah) -->
+        <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-bold uppercase tracking-widest border-b-2 border-red-700">Buku Kas</span>
+            <span id="counter" class="text-xs font-bold bg-black text-white px-2 py-0.5 shadow-sm">00</span>
         </div>
 
-        <div id="history-list" class="space-y-3">
-            <!-- Items appear here -->
+        <div id="history-list" class="space-y-4">
+            <!-- Data akan muncul di sini -->
+            <div class="text-center py-10 opacity-30 italic text-xs">Memuat Gulungan Data...</div>
         </div>
+
+        <footer class="mt-12 text-center pb-10">
+            <div class="text-[20px] mb-2 opacity-20">🎎</div>
+            <p class="text-[9px] uppercase tracking-[0.5em] font-bold opacity-40">Gungun Industries - Nippon Edition</p>
+        </footer>
     </div>
 
     <!-- Firebase SDK -->
@@ -91,7 +144,8 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const dbRef = db.ref('luxury_kas_v5'); // Path database baru
+        const dbPath = 'apato_404_ledger'; // Path database baru bertema Apato
+        const dbRef = db.ref(dbPath);
 
         // Fungsi Simpan
         function saveData(type) {
@@ -100,89 +154,84 @@
             if(!keterangan || !nominal) return;
 
             dbRef.push({
-                description: keterangan.toUpperCase(),
-                amount: parseInt(nominal),
+                desc: keterangan.toUpperCase(),
+                amt: parseInt(nominal),
                 type: type,
-                timestamp: firebase.database.ServerValue.TIMESTAMP
+                ts: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
                 document.getElementById('ket').value = "";
                 document.getElementById('nom').value = "";
-            }).catch(e => alert("Gagal Simpan: " + e.message));
+                if(navigator.vibrate) navigator.vibrate(20);
+            });
         }
 
-        // FUNGSI HAPUS (MENGGUNAKAN METODE LANGSUNG)
-        window.deleteEntry = function(key) {
-            const confirmation = confirm("Hapus permanen data ini?");
-            if (confirmation) {
-                // Memanggil remove langsung ke path item
-                db.ref('luxury_kas_v5/' + key).remove()
-                .then(() => {
-                    console.log("Item " + key + " berhasil dihapus.");
-                })
-                .catch((error) => {
-                    alert("Gagal menghapus! Pesan: " + error.message);
-                    console.error("Hapus error: ", error);
-                });
+        document.getElementById('btn-masuk').onclick = () => saveData('masuk');
+        document.getElementById('btn-keluar').onclick = () => saveData('keluar');
+
+        // Fungsi Hapus Global
+        window.deleteItem = function(key) {
+            if (confirm("Hapus catatan ini dari buku kas?")) {
+                db.ref(dbPath + '/' + key).remove()
+                .catch(e => alert("Gagal: " + e.message));
             }
-        }
+        };
 
-        // Koneksi Status
+        // Status Koneksi
         db.ref(".info/connected").on("value", (s) => {
-            const st = document.getElementById('status');
-            st.innerText = s.val() ? "TERHUBUNG" : "TERPUTUS";
-            st.style.color = s.val() ? "#00f2ff" : "#ff3333";
+            const dot = document.querySelector('#status-koneksi span');
+            dot.style.backgroundColor = s.val() ? "#2f3542" : "#b33939";
         });
 
-        // Update Realtime
+        // Realtime Data
         dbRef.on('value', (snap) => {
             const list = document.getElementById('history-list');
-            const totalDisplay = document.getElementById('total-saldo');
-            const countDisplay = document.getElementById('counter');
+            const totalEl = document.getElementById('total-saldo');
+            const countEl = document.getElementById('counter');
             
             list.innerHTML = "";
             let total = 0;
             let count = 0;
-
             const val = snap.val();
+
             if(!val) {
-                totalDisplay.innerText = "¥0";
-                countDisplay.innerText = "00";
-                list.innerHTML = "<div class='text-center py-12 opacity-20 text-[9px] tracking-widest uppercase italic'>Sistem Kosong</div>";
+                totalEl.innerText = "¥0";
+                countEl.innerText = "00";
+                list.innerHTML = "<div class='shoji-card p-10 text-center text-xs opacity-40'>BUKU MASIH KOSONG</div>";
                 return;
             }
 
-            const arr = Object.keys(val).map(k => ({id: k, ...val[k]})).sort((a,b) => b.timestamp - a.timestamp);
+            const arr = Object.keys(val).map(k => ({id: k, ...val[k]})).sort((a,b) => b.ts - a.ts);
 
             arr.forEach(item => {
                 count++;
                 const isInc = item.type === 'masuk';
-                total += isInc ? item.amount : -item.amount;
+                total += isInc ? item.amt : -item.amt;
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = "glass p-4 flex justify-between items-center border-l-2 " + (isInc ? 'border-l-cyan-400' : 'border-l-rose-500');
+                itemDiv.className = "shoji-card p-4 flex justify-between items-center bg-white";
                 itemDiv.innerHTML = `
-                    <div>
-                        <h4 class="text-[10px] font-bold tracking-widest">${item.description}</h4>
-                        <p class="text-[7px] opacity-30 mt-1">${new Date(item.timestamp).toLocaleTimeString()}</p>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                             <div class="h-1.5 w-1.5 bg-black rounded-full"></div>
+                             <h4 class="text-[11px] font-bold tracking-widest">${item.desc}</h4>
+                        </div>
+                        <p class="text-[8px] opacity-40 mt-1 uppercase ml-3">${new Date(item.ts).toLocaleString('id-ID')}</p>
                     </div>
                     <div class="flex items-center gap-4">
-                        <span class="font-cyber text-[11px] ${isInc ? 'text-cyan-400' : 'text-rose-500'}">
-                            ${isInc ? '+' : '-'} ${item.amount.toLocaleString()}
+                        <span class="text-xs font-bold ${isInc ? 'text-green-700' : 'text-red-700'}">
+                            ${isInc ? '+' : '-'} ¥${item.amt.toLocaleString()}
                         </span>
-                        <button onclick="deleteEntry('${item.id}')" class="p-2 text-white/20 hover:text-rose-500 transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                        <button onclick="window.deleteItem('${item.id}')" class="p-2 border border-black/5 hover:bg-red-50 text-black/20 hover:text-red-700 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                         </button>
                     </div>
                 `;
                 list.appendChild(itemDiv);
             });
 
-            totalDisplay.innerText = "¥" + total.toLocaleString();
-            countDisplay.innerText = count < 10 ? "0"+count : count;
-            
-            // Animasi Bar
-            document.getElementById('loading-bar').style.width = "100%";
-            setTimeout(() => document.getElementById('loading-bar').style.width = "0%", 400);
+            totalEl.innerText = "¥" + total.toLocaleString();
+            countEl.innerText = count < 10 ? "0"+count : count;
+            document.getElementById('last-sync').innerText = new Date().toLocaleTimeString();
         });
     </script>
 </body>
