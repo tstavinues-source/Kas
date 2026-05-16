@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Editor - Gungun</title>
+    <style>
+        /* Desain sederhana agar nyaman dibuka di HP */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 15px;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            height: 95vh;
+        }
+        header {
+            margin-bottom: 10px;
+        }
+        h2 { margin: 0; color: #1a73e8; font-size: 1.2rem; }
+        .status-bar {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .dot {
+            height: 8px;
+            width: 8px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        textarea {
+            flex-grow: 1;
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-size: 16px; /* Mencegah auto-zoom di iPhone */
+            line-height: 1.5;
+            resize: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            outline: none;
+        }
+        textarea:focus {
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+        }
+        footer {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 11px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>📝 Editor Realtime</h2>
+        <div class="status-bar">
+            <span class="dot"></span>
+            <span id="status">Terhubung ke Firebase</span>
+        </div>
+    </header>
+
+    <textarea id="editor" placeholder="Ketik sesuatu di sini... Semua orang yang membuka link ini akan melihat perubahan secara langsung!"></textarea>
+
+    <footer>
+        Dibuat oleh Gungun &bull; Firebase Realtime DB
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database-compat.js"></script>
+
+    <script>
+        // Konfigurasi yang Anda dapatkan dari Firebase Console
+        const firebaseConfig = {
+            apiKey: "AIzaSyAiMAg6_CsXal5g_EXLbgoQ35VIboSRJ4A",
+            authDomain: "kas-ac289.firebaseapp.com",
+            databaseURL: "https://kas-ac289-default-rtdb.firebaseio.com",
+            projectId: "kas-ac289",
+            storageBucket: "kas-ac289.firebasestorage.app",
+            messagingSenderId: "341907599331",
+            appId: "1:341907599331:web:35f1d7e63014899a4abad6",
+            measurementId: "G-90XWH8C7M6"
+        };
+
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const docRef = db.ref('shared_document');
+
+        const editor = document.getElementById('editor');
+        const statusText = document.getElementById('status');
+
+        // 1. Menerima data dari Firebase (Realtime)
+        docRef.on('value', (snapshot) => {
+            const content = snapshot.val();
+            
+            // Hanya update jika isi berbeda dan user tidak sedang fokus mengetik
+            // Ini untuk mencegah kursor "loncat" saat sedang mengetik
+            if (content !== null && document.activeElement !== editor) {
+                editor.value = content;
+            }
+        });
+
+        // 2. Mengirim data ke Firebase saat ada ketikan
+        editor.addEventListener('input', (e) => {
+            docRef.set(e.target.value)
+                .then(() => {
+                    statusText.innerText = "Tersimpan";
+                    setTimeout(() => { statusText.innerText = "Terhubung ke Firebase"; }, 2000);
+                })
+                .catch((error) => {
+                    console.error("Gagal simpan:", error);
+                    statusText.innerText = "Gagal menyimpan!";
+                });
+        });
+
+        // Deteksi status koneksi
+        const connectedRef = db.ref(".info/connected");
+        connectedRef.on("value", (snap) => {
+            if (snap.val() === true) {
+                statusText.style.color = "green";
+            } else {
+                statusText.innerText = "Terputus...";
+                statusText.style.color = "red";
+            }
+        });
+    </script>
+</body>
+</html>
