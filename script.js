@@ -1,11 +1,11 @@
 // ==========================================
 // KAS APATO 404 - CORE SYSTEM & ADVANCED UI OVERRIDE
-// VERSI: ULTIMATE & OPTIMIZED (1.3.0) - CUMULATIVE BALANCE & GLITTER PATCH
+// VERSI: ULTIMATE & OPTIMIZED (1.3.1) - FINAL STABLE
 // ==========================================
 
-// --- 1. STATE MANAGEMENT ---
+// --- 1. PENGURUSAN STATUS (STATE MANAGEMENT) ---
 const appState = {
-    viewMode: 'period', // 'period', 'month', 'all'
+    viewMode: 'period', // Mod paparan: 'period', 'month', 'all'
     filters: {
         search: '',
         category: 'ALL',
@@ -13,16 +13,16 @@ const appState = {
     },
     rawData: [], // Cache data dari Firebase
     ai: {
-        stagingItems: [] // Encapsulasi untuk mencegah konflik global
+        stagingItems: [] // Enkapsulasi untuk mengelakkan konflik pembolehubah global
     },
-    isInitialLoad: true // Flag untuk notifikasi loading awal
+    isInitialLoad: true // Bendera untuk notifikasi muatan pertama
 };
 
 let globalItemsMap = {};
 let itemToDelete = null;
 let itemToEditId = null;
 
-// --- 2. MULTI THEME LOGIC ---
+// --- 2. LOGIK TEMA BERGANDA (MULTI THEME) ---
 const themes = ['theme-neo', 'theme-light', 'theme-synth'];
 let currentThemeIndex = 0;
 
@@ -37,7 +37,7 @@ function toggleTheme() {
     applyTheme(currentThemeIndex);
 }
 
-// --- 3. HELPER & UTILITY FUNCTIONS ---
+// --- 3. FUNGSI UTILITI & PEMBANTU ---
 function safeHideElement(id) {
     const el = document.getElementById(id);
     if (el) el.classList.add('hidden');
@@ -48,7 +48,7 @@ function safeShowElement(id) {
     if (el) el.classList.remove('hidden');
 }
 
-// Fallback untuk roundRect (Bug fix Safari/Browser Lama)
+// Tampung (Polyfill) untuk roundRect (Baik pulih pepijat Safari/Pelayar Lama)
 function drawRoundedRect(ctx, x, y, width, height, radius) {
     if (typeof ctx.roundRect === 'function') {
         ctx.roundRect(x, y, width, height, radius);
@@ -67,7 +67,7 @@ function drawRoundedRect(ctx, x, y, width, height, radius) {
     }
 }
 
-// --- 4. UI INJECTION ENGINE ---
+// --- 4. ENJIN SUNTIKAN ANTARA MUKA (UI INJECTION) ---
 function injectAdvancedUI() {
     const mainContainer = document.querySelector('.max-w-md.mx-auto');
     const dashboard = document.querySelector('.neo-panel');
@@ -76,7 +76,7 @@ function injectAdvancedUI() {
     if(!dashboard || !ledgerList) return; 
     if(document.getElementById('injected-ui-flag')) return; 
 
-    // A. Progress Bar & Mode Toggle
+    // A. Bar Kemajuan & Penukar Mod (Progress Bar & Mode Toggle)
     const dashAddon = document.createElement('div');
     dashAddon.id = "injected-ui-flag";
     dashAddon.innerHTML = `
@@ -100,11 +100,11 @@ function injectAdvancedUI() {
     `;
     dashboard.appendChild(dashAddon);
 
-    // B. Chart, Tracker Kebutuhan Pokok, & Filter
+    // B. Carta, Penjejak Keperluan Asas, & Penapis
     const controlPanel = document.createElement('div');
     controlPanel.className = "mb-8 space-y-4";
     controlPanel.innerHTML = `
-        <!-- Canvas Chart Tren 7 Hari -->
+        <!-- Carta Kanvas Tren 7 Hari -->
         <div class="neo-panel p-5 relative overflow-hidden">
             <div class="absolute -right-4 -top-4 w-16 h-16 bg-theme-primary/10 rounded-full blur-xl"></div>
             <h3 class="font-tech text-[10px] text-theme-muted uppercase tracking-[0.2em] mb-4 flex justify-between font-bold">
@@ -113,7 +113,7 @@ function injectAdvancedUI() {
             <canvas id="trendChart" class="w-full h-28 relative z-10"></canvas>
         </div>
 
-        <!-- Tracker Kebutuhan Pokok -->
+        <!-- Penjejak Keperluan Asas (Tracker) -->
         <div class="neo-panel p-4 border-theme-primary/30 bg-theme-glass">
             <h3 class="font-tech text-[10px] text-theme-primary uppercase tracking-[0.2em] mb-4 border-b border-theme-border pb-3 font-bold flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-theme-primary animate-pulse"></span> Riwayat Belanja Pokok
@@ -137,7 +137,7 @@ function injectAdvancedUI() {
             </div>
         </div>
 
-        <!-- Filter & Search Panel -->
+        <!-- Panel Carian & Penapis -->
         <div class="neo-panel p-4 border-theme-primary/30 bg-theme-glass">
             <div class="flex gap-3 mb-3">
                 <div class="flex-1 relative group">
@@ -182,7 +182,7 @@ function injectAdvancedUI() {
     updateProgressBar();
 }
 
-// --- 5. SISTEM KEAMANAN ---
+// --- 5. SISTEM KESELAMATAN ---
 function openSettingsAuth() {
     const pwd = prompt("SYSTEM LOCKED. Enter Auth Code:");
     if (pwd === "99") {
@@ -193,7 +193,7 @@ function openSettingsAuth() {
 }
 function decodeSecure(encoded) { return atob(encoded); }
 
-// --- 6. EFEK VISUAL & MODAL UI ---
+// --- 6. KESAN VISUAL & MODAL UI ---
 function createParticles() {
     const box = document.getElementById('particle-box');
     if(!box) return;
@@ -207,18 +207,19 @@ function createParticles() {
     
     const selectedColor = colors[Math.floor(Math.random()*colors.length)];
     
+    // Kesan Glitter Diperkuat
     petal.style.background = `linear-gradient(to bottom, transparent, ${selectedColor}, transparent)`;
     petal.style.left = Math.random() * 100 + 'vw';
-    petal.style.height = (Math.random() * 15 + 5) + 'px'; // Ukuran lebih bervariasi
-    petal.style.width = (Math.random() * 2 + 1) + 'px'; // Lebar tipis seperti glitter
-    petal.style.opacity = Math.random() * 0.5 + 0.3; // Transparansi dinamis
-    petal.style.animationDuration = (Math.random() * 2.5 + 1.5) + 's'; // Jatuh lebih cepat/variatif
-    petal.style.boxShadow = `0 0 10px ${selectedColor}, 0 0 5px ${selectedColor}`; // Efek GLOW ditambahkan
+    petal.style.height = (Math.random() * 15 + 5) + 'px'; 
+    petal.style.width = (Math.random() * 2 + 1) + 'px'; 
+    petal.style.opacity = Math.random() * 0.5 + 0.3; 
+    petal.style.animationDuration = (Math.random() * 2.5 + 1.5) + 's'; 
+    petal.style.boxShadow = `0 0 10px ${selectedColor}, 0 0 5px ${selectedColor}`; 
     
     box.appendChild(petal);
     setTimeout(() => petal.remove(), 4500);
 }
-// Interval dipercepat untuk membuat efek glitter lebih rapat dan memukau
+// Masa dikurangkan agar lebih banyak zarah berkilau (glitter)
 setInterval(createParticles, 100);
 
 function showToast(msg, isError = false) {
@@ -304,7 +305,7 @@ function formatDateHeader(ts) {
     return `${d.getDate().toString().padStart(2,'0')} / ${(d.getMonth()+1).toString().padStart(2,'0')} / ${d.getFullYear()}`;
 }
 
-// --- 7. FIREBASE & LOGIKA PERIODE (16-15) ---
+// --- 7. FIREBASE & LOGIK TEMPOH (16-15) ---
 const firebaseConfig = {
     apiKey: decodeSecure("QUl6YVN5QWlNQWc2X0NzWGFsNWdfRVhMYmdvUTM1Vklib1NSSjRB"),
     authDomain: decodeSecure("a2FzLWFjMjg5LmZpcmViYXNlYXBwLmNvbQ=="),
@@ -339,7 +340,7 @@ function getPeriodRange() {
     };
 }
 
-// --- 8. CORE DATA ENGINE ---
+// --- 8. ENJIN DATA TERAS (CORE DATA ENGINE) ---
 function loadData() {
     if(!db) return;
     
@@ -363,7 +364,7 @@ function loadData() {
         // Cache data global
         appState.rawData = Object.keys(data).map(k => ({id: k, ...data[k]})).sort((a,b) => b.ts - a.ts);
         
-        // Simpan ke map referensi edit
+        // Simpan ke peta rujukan suntingan
         globalItemsMap = {};
         appState.rawData.forEach(item => globalItemsMap[item.id] = item);
 
@@ -380,19 +381,20 @@ function renderFilteredUI() {
     list.innerHTML = "";
     if(archList) archList.innerHTML = ""; 
 
-    let accumulatedTotal = 0; // Saldo kumulatif (tidak reset)
+    let accumulatedTotal = 0; // Baki kumulatif (tidak di-reset setiap bulan)
     let activeCount = 0;
     let currentActiveDate = "";
     let currentArchDate = "";
 
-    // DOM Optimization Limit
+    // Had Pemaparan untuk mengoptimumkan memori DOM
     const MAX_RENDER = 150;
-    let renderedCount = 0;
+    let activeRenderedCount = 0;
+    let archiveRenderedCount = 0;
 
-    // Tracker
+    // Pemantau Keperluan Asas
     let sumBeras = 0, sumMinyak = 0, sumSabun = 0;
 
-    // A. Penentuan Batas Waktu View
+    // A. Penentuan Had Masa Paparan
     const now = new Date();
     let timeStart = 0, timeEnd = Infinity;
     
@@ -408,24 +410,23 @@ function renderFilteredUI() {
         if(document.getElementById('active-period-label')) document.getElementById('active-period-label').innerText = "DATA ALL-TIME";
     }
 
-    // B. Rendering Data & Kalkulasi Saldo
+    // B. Pemasangan Data & Kiraan Baki
     appState.rawData.forEach(item => {
-        // Cek filter general (Category & User)
+        // Semak penapis kategori & pengguna
         const matchCat = appState.filters.category === 'ALL' || item.category === appState.filters.category;
         const matchUser = appState.filters.user === 'ALL' || item.user === appState.filters.user;
         const isInc = item.type === 'masuk';
 
-        // PENTING: Kalkulasi Saldo Kumulatif
-        // Saldo dihitung dari semua transaksi sejak awal HINGGA batas timeEnd. (Sisa saldo tidak kembali ke 0)
-        // Kita juga tetap mematuhi filter Kategori/User (tapi abaikan kolom pencarian agar saldo total tidak loncat-loncat saat ngetik)
+        // PENTING: Pengiraan Baki Kumulatif dibawa ke hadapan (Carry-over balance)
+        // Baki dikira dari semua transaksi sejak mula SEHINGGA tarikh akhir tempoh semasa.
         if (item.ts <= timeEnd && matchCat && matchUser) {
             accumulatedTotal += isInc ? item.amt : -item.amt;
         }
 
-        // Filter Pencarian Teks
+        // Penapis carian teks
         const matchSearch = !appState.filters.search || item.desc.toLowerCase().includes(appState.filters.search.toLowerCase());
         
-        // Jika tidak lolos salah satu filter untuk ditampilkan, skip render HTML-nya
+        // Jika tidak lulus penapis, jangan paparkan kad HTML
         if (!(matchSearch && matchCat && matchUser)) return;
 
         const isActive = item.ts >= timeStart && item.ts <= timeEnd; 
@@ -437,7 +438,7 @@ function renderFilteredUI() {
         const borderLight = isInc ? 'border-theme-success shadow-[0_0_15px_var(--success-color)]' : 'border-theme-danger shadow-[0_0_15px_var(--danger-color)]';
         const textValueColor = isInc ? 'text-transparent bg-clip-text bg-gradient-to-r from-theme-success to-green-400' : 'text-theme-text';
 
-        // Hitung statistik tracking hanya untuk transaksi yang berada di rentang view aktif
+        // Hitung statistik penjejakan hanya untuk transaksi aktif
         if (isActive) {
             activeCount++;
             if (!isInc) {
@@ -448,8 +449,12 @@ function renderFilteredUI() {
             }
         }
 
+        // ==========================================
+        // BAIK PULIH PEPIJAT GPU (Scroll Patah-patah): 
+        // Menggunakan 'bg-theme-panel rounded-2xl' untuk mengelakkan kesan blur yang membebankan HP.
+        // ==========================================
         const cardHTML = `
-            <div class="neo-panel p-5 flex justify-between items-center border-l-4 ${borderLight} group mb-4">
+            <div class="bg-theme-panel p-5 rounded-2xl flex justify-between items-center border border-theme-border border-l-4 ${borderLight} group relative overflow-hidden shadow-sm">
                 <div class="flex-1 pr-3 relative z-10">
                     <div class="flex items-center gap-2 mb-2.5 flex-wrap">
                         <span class="font-tech text-[9px] bg-theme-bg text-theme-text px-2 py-1 rounded uppercase tracking-[0.1em] border border-theme-border font-bold shadow-sm">${item.user}</span>
@@ -474,36 +479,41 @@ function renderFilteredUI() {
             </div>
         `;
 
-        // Render dengan Limitasi Performa
+        // Logik Had Paparan Data
         if (isActive) {
-            if (renderedCount < MAX_RENDER) {
+            if (activeRenderedCount < MAX_RENDER) {
                 if(currentActiveDate !== itemDateHeader) {
                     list.insertAdjacentHTML('beforeend', `<div class="date-divider">TANGGAL: ${itemDateHeader}</div>`);
                     currentActiveDate = itemDateHeader;
                 }
                 list.insertAdjacentHTML('beforeend', cardHTML);
-                renderedCount++;
+                activeRenderedCount++;
             }
-        } else if (archList && archList.childElementCount < MAX_RENDER) {
+        } else if (archList && archiveRenderedCount < MAX_RENDER) {
             if(currentArchDate !== itemDateHeader) {
                 archList.insertAdjacentHTML('beforeend', `<div class="date-divider">ARSIP: ${itemDateHeader}</div>`);
                 currentArchDate = itemDateHeader;
             }
             archList.insertAdjacentHTML('beforeend', cardHTML);
+            archiveRenderedCount++;
         }
     });
 
-    if (renderedCount >= MAX_RENDER) {
+    if (activeRenderedCount >= MAX_RENDER) {
         list.insertAdjacentHTML('beforeend', `<div class="text-center text-[10px] font-tech text-theme-muted mt-6 border border-theme-border bg-theme-bg rounded-xl py-3 uppercase tracking-widest font-bold shadow-inner">Menampilkan ${MAX_RENDER} Data Terakhir</div>`);
     }
+    
+    if (archList && archiveRenderedCount >= MAX_RENDER) {
+        archList.insertAdjacentHTML('beforeend', `<div class="text-center text-[10px] font-tech text-theme-muted mt-4 border border-theme-border bg-theme-bg rounded-xl py-3 uppercase tracking-widest font-bold shadow-inner">Menampilkan ${MAX_RENDER} Data Arsip Terakhir</div>`);
+    }
 
-    // Tampilkan Saldo Akumulatif
+    // Paparkan Baki Kumulatif
     if(totalEl) totalEl.innerText = (accumulatedTotal < 0 ? "-" : "") + "¥" + Math.abs(accumulatedTotal).toLocaleString();
     
     if(document.getElementById('item-count')) document.getElementById('item-count').innerText = activeCount < 10 ? "0"+activeCount : activeCount;
     if(document.getElementById('sync-time')) document.getElementById('sync-time').innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false});
     
-    // Tracker UI Update
+    // Kemas kini Penjejak (Tracker UI)
     if(document.getElementById('track-beras')) document.getElementById('track-beras').innerText = "¥" + sumBeras.toLocaleString();
     if(document.getElementById('track-minyak')) document.getElementById('track-minyak').innerText = "¥" + sumMinyak.toLocaleString();
     if(document.getElementById('track-sabun')) document.getElementById('track-sabun').innerText = "¥" + sumSabun.toLocaleString();
@@ -511,7 +521,7 @@ function renderFilteredUI() {
     drawChart(appState.rawData, timeStart, timeEnd);
 }
 
-// --- 9. FITUR LANJUTAN (CHART, FILTER, EXPORT, PROGRESS) ---
+// --- 9. CIRI-CIRI LANJUTAN (CARTA, PENAPIS, EKSPORT, KEMAJUAN) ---
 function changeViewMode(mode) {
     appState.viewMode = mode;
     
@@ -532,7 +542,7 @@ function changeViewMode(mode) {
     updateProgressBar();
 }
 
-// Debounce Search & Update Filter
+// Lengah Carian (Debounce) untuk prestasi yang lebih lancar
 let filterTimeout;
 function updateFilters(key, value) {
     if (key === 'search') {
@@ -684,7 +694,7 @@ function checkPeriodNotification() {
     }
 }
 
-// --- 10. OPERASI CRUD ---
+// --- 10. OPERASI PANGKALAN DATA (CRUD) ---
 function send(type) {
     const user = document.getElementById('input-user') ? document.getElementById('input-user').value : null;
     const ket = document.getElementById('input-ket') ? document.getElementById('input-ket').value : null;
@@ -765,7 +775,7 @@ function saveEdit() {
     });
 }
 
-// --- 11. LOGGING SYSTEM ---
+// --- 11. SISTEM LOG DAN REKOD ---
 function createLog(action, detail, user) {
     if(db) db.ref(logPath).push({ action, detail, user: user || "SYS", ts: firebase.database.ServerValue.TIMESTAMP });
 }
@@ -807,7 +817,7 @@ function loadLogs() {
     });
 }
 
-// --- 12. SISTEM AI & GEMINI ---
+// --- 12. SISTEM AI & KECERDASAN BUATAN (GEMINI) ---
 let apiConfig = { apiKey: '', status: 'unconfigured' };
 const API_MODEL = 'gemini-2.5-flash';
 const _b64Code = "QVEuQWI4Uk42TF9Pa1Z0RllqdE80TnR5bkVsRTRtSkhqbm5pWHVXZjNTOElTaEs1UlNTWEE=";
@@ -816,7 +826,7 @@ function decryptMasterKey() {
     try {
         return atob(_b64Code);
     } catch(e) {
-        console.warn("Gagal mendekripsi key default:", e);
+        console.warn("Gagal mendekripsi key lalai:", e);
         return '';
     }
 }
@@ -852,7 +862,7 @@ function updateAPIStatus(status, logMsg = '') {
     }
 }
 
-// Event Delegation for Key Toggle
+// Delegasi Acara (Event Delegation) untuk menukar ikon mata pada Input Kata Laluan
 document.addEventListener('click', (e) => {
     const toggleBtn = e.target.closest('#toggle-key-btn');
     if (toggleBtn) {
@@ -1219,7 +1229,7 @@ function saveAIToLedger() {
     }
 }
 
-// --- 13. INITIALIZATION BOOTSTRAP ---
+// --- 13. PEMULAAN SISTEM (INITIALIZATION BOOTSTRAP) ---
 window.addEventListener('DOMContentLoaded', () => {
     // 1. Terapkan Tema yang disimpan
     const savedTheme = localStorage.getItem('apato_theme');
@@ -1234,22 +1244,22 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('api-key-input').value = savedKey;
         apiConfig.apiKey = savedKey;
         checkKeyType(savedKey);
-        updateAPIStatus('saved', 'Kunci dimuat otomatis dari memori sesi.');
+        updateAPIStatus('saved', 'Kunci dimuat automatik dari sesi memori.');
     } else if (document.getElementById('api-key-input')) {
         const restoredKey = decryptMasterKey();
         document.getElementById('api-key-input').value = restoredKey;
         apiConfig.apiKey = restoredKey;
         checkKeyType(restoredKey);
-        updateAPIStatus('saved', 'Kunci default Base64 ter-dekripsi & dimuat internal.');
+        updateAPIStatus('saved', 'Kunci lalai (Base64) di-dekripsi & dimuat internal.');
     }
 
-    // 3. Inject Komponen UI Lanjutan
+    // 3. Suntik Antara Muka Pengguna Lanjutan
     setTimeout(() => {
         injectAdvancedUI();
     }, 150);
 });
 
-// Listener Auth Firebase
+// Pendaftaran Auth Firebase
 if(auth) {
     auth.onAuthStateChanged((user) => {
         if (user) {
